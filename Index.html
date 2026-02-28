@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Stumble Premiada</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:radial-gradient(circle,#0f172a,#020617);
+color:white;
+text-align:center;
+}
+
+header{
+background:#020617;
+padding:25px;
+font-size:32px;
+font-weight:bold;
+color:#22c55e;
+letter-spacing:2px;
+box-shadow:0 0 20px black;
+}
+
+.container{
+padding:30px;
+max-width:600px;
+margin:auto;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+margin:20px 0;
+box-shadow:0 0 20px rgba(0,0,0,0.6);
+}
+
+.card h2{
+color:#22c55e;
+}
+
+button{
+background:linear-gradient(90deg,#22c55e,#16a34a);
+border:none;
+padding:16px;
+border-radius:10px;
+width:100%;
+color:white;
+font-size:17px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+}
+
+.barra{
+background:#334155;
+height:22px;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.progresso{
+background:linear-gradient(90deg,#22c55e,#4ade80);
+height:22px;
+}
+
+.lista{
+text-align:left;
+margin-top:10px;
+}
+
+.rank{
+color:#facc15;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<header>🏆 STUMBLE PREMIADA</header>
+
+<div class="container">
+
+<div class="card">
+<h2>🎮 Campeonato</h2>
+<p>
+20 jogadores<br>
+1 partida<br>
+quem ganhar leva o prêmio
+</p>
+
+<p>💰 inscrição: R$1,50</p>
+
+<h3>💰 prêmio atual</h3>
+<p id="premio"></p>
+
+<h3>🥇 premiação</h3>
+<p id="premios"></p>
+</div>
+
+<div class="card">
+<h3>📊 vagas preenchidas</h3>
+<div class="barra">
+<div id="barra" class="progresso"></div>
+</div>
+<p id="contador"></p>
+</div>
+
+<div class="card">
+<h3>👥 jogadores confirmados</h3>
+<div id="lista" class="lista"></div>
+</div>
+
+<div class="card">
+<h3 class="rank">🏆 ranking de campeões</h3>
+<div id="ranking"></div>
+</div>
+
+<div class="card">
+<a href="inscricao.html">
+<button>🎮 PARTICIPAR DO CAMPEONATO</button>
+</a>
+</div>
+
+</div>
+
+<script>
+// Jogadores e campeões
+let jogadores = JSON.parse(localStorage.getItem("jogadores")) || [];
+let campeoes = JSON.parse(localStorage.getItem("campeoes")) || [];
+
+// Contador de vagas
+let contador = jogadores.length;
+document.getElementById("contador").innerText = contador + " / 20 jogadores";
+document.getElementById("barra").style.width = (contador/20*100) + "%";
+
+// Lista de jogadores
+let lista="";
+jogadores.forEach(j=>{
+  lista += "🎮 "+j+"<br>";
+});
+document.getElementById("lista").innerHTML = lista;
+
+// Ranking de campeões
+let ranking="";
+campeoes.forEach((c)=>{
+  ranking+="🥇 "+c+"<br>";
+});
+document.getElementById("ranking").innerHTML = ranking;
+
+// Prêmio total
+let premio = contador*1.5;
+document.getElementById("premio").innerText = "R$ "+premio.toFixed(2);
+
+// Premiação dividida
+let p1=(premio*0.6).toFixed(2);
+let p2=(premio*0.3).toFixed(2);
+let p3=(premio*0.1).toFixed(2);
+document.getElementById("premios").innerHTML=
+"🥇 1º lugar: R$ "+p1+"<br>"+
+"🥈 2º lugar: R$ "+p2+"<br>"+
+"🥉 3º lugar: R$ "+p3;
+</script>
+
+</body>
+</html>

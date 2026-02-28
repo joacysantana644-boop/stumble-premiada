@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Pagamento - Stumble Premiada</title>
+<style>
+body{
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg,#0f172a,#020617);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+margin:0;
+}
+
+.container{
+background:#111827;
+padding:30px;
+border-radius:15px;
+width:420px;
+box-shadow:0 0 25px rgba(0,0,0,0.7);
+text-align:center;
+}
+
+h2{
+color:#22c55e;
+margin-bottom:20px;
+font-size:28px;
+text-shadow:0 0 8px #22c55e;
+}
+
+.steps{
+text-align:left;
+margin-top:15px;
+}
+
+.steps li{
+margin:12px 0;
+line-height:1.5;
+}
+
+.pix{
+background:#1f2937;
+padding:15px;
+border-radius:10px;
+margin:20px 0;
+font-size:16px;
+font-weight:bold;
+box-shadow:0 0 10px #16a34a;
+}
+
+.qr{
+margin-top:15px;
+margin-bottom:20px;
+}
+
+.qr img{
+width:200px;
+height:200px;
+border-radius:12px;
+box-shadow:0 0 15px #16a34a;
+}
+
+button{
+margin-top:10px;
+padding:15px;
+border:none;
+border-radius:10px;
+width:100%;
+background:linear-gradient(90deg,#22c55e,#16a34a);
+color:white;
+font-weight:bold;
+cursor:pointer;
+font-size:16px;
+transition:0.3s;
+box-shadow:0 0 15px #16a34a;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+.note{
+margin-top:15px;
+color:#facc15;
+font-size:14px;
+line-height:1.4;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>💰 Pagamento - Stumble Premiada</h2>
+
+<ul class="steps">
+<li>1️⃣ Realize o pagamento da taxa de inscrição.</li>
+<li>2️⃣ Envie o <b>comprovante</b> diretamente para o ADM.</li>
+<li>3️⃣ Se não enviar o comprovante, <b>não participará</b> do campeonato.</li>
+<li>4️⃣ Após confirmação do ADM, você será adicionado ao <b>grupo WhatsApp</b>.</li>
+</ul>
+
+<div class="pix">
+Chave PIX:<br>
+<b>7bfe7df0-93c6-4a09-823e-b9321e817f41</b>
+</div>
+
+<div class="qr">
+<img src="https://api.qrserver.com/v1/create-qr-code/?data=7bfe7df0-93c6-4a09-823e-b9321e817f41&size=200x200" alt="QR Code Pix">
+</div>
+
+<button onclick="window.location.href='https://chat.whatsapp.com/LlbWqo0JcPQIMA1bctZoov?mode=gi_t'">
+✅ Enviar comprovante para o ADM
+</button>
+
+<p class="note">
+*Após enviar o comprovante e confirmação do ADM, você será adicionado ao grupo do campeonato.*
+</p>
+</div>
+</body>
+</html>

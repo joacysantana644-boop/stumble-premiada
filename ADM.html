@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Painel ADM - Stumble Premiada</title>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#0f172a,#020617);
+  color:white;
+  display:flex;
+  justify-content:center;
+  padding-top:40px;
+  min-height:100vh;
+}
+
+.container{
+  background:#111827;
+  padding:25px;
+  border-radius:15px;
+  width:500px;
+  box-shadow:0 0 25px rgba(0,0,0,0.7);
+}
+
+h2{
+  color:#22c55e;
+  text-align:center;
+  margin-bottom:20px;
+  text-shadow:0 0 8px #22c55e;
+}
+
+.card{
+  background:#1e293b;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+
+.info{
+  text-align:left;
+}
+
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#22c55e,#16a34a);
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+button.confirmado{
+  background:#facc15;
+  color:black;
+  cursor:default;
+}
+
+#contador{
+  text-align:center;
+  margin-bottom:15px;
+  font-size:16px;
+  color:#facc15;
+  font-weight:bold;
+}
+
+.add-player{
+  margin-bottom:20px;
+  display:flex;
+  flex-direction:column;
+}
+
+.add-player input{
+  padding:10px;
+  margin:5px 0;
+  border-radius:6px;
+  border:none;
+  background:#1f2937;
+  color:white;
+}
+
+.add-player button{
+  margin-top:5px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>🔐 Painel ADM - Stumble Premiada</h2>
+
+<div id="contador"></div>
+
+<div class="add-player">
+  <h3>➕ Adicionar jogador manualmente</h3>
+  <input type="text" id="novoNick" placeholder="Nick do jogador">
+  <input type="text" id="novoInsta" placeholder="Instagram (opcional)">
+  <button onclick="adicionarJogador()">Adicionar</button>
+</div>
+
+<div id="listaJogadores"></div>
+
+<button onclick="resetarCampeonato()">🔄 Zerar inscrições / Vagas</button>
+</div>
+
+<script>
+// ************** SENHA ADM **************
+const senhaADM = prompt("Digite a senha do ADM:");
+if(senhaADM !== "1234"){ // Mude para a senha que você quer
+  alert("Senha incorreta! Você não tem acesso.");
+  document.body.innerHTML="<h1 style='color:red;text-align:center;margin-top:50px;'>Acesso negado!</h1>";
+  throw new Error("Senha incorreta");
+}
+// ***************************************
+
+// Carrega dados
+let jogadores = JSON.parse(localStorage.getItem("jogadores")) || [];
+let instas = JSON.parse(localStorage.getItem("instas")) || [];
+let confirmados = JSON.parse(localStorage.getItem("confirmados")) || [];
+
+// Atualiza lista
+function atualizarLista(){
+  const listaDiv = document.getElementById("listaJogadores");
+  listaDiv.innerHTML = "";
+  jogadores.forEach((nick,i)=>{
+    const insta = instas[i] || "-";
+    const card = document.createElement("div");
+    card.className = "card";
+    const info = document.createElement("div");
+    info.className = "info";
+    info.innerHTML = `<b>${nick}</b><br>${insta}`;
+    const btn = document.createElement("button");
+    
+    if(confirmados.includes(nick)){
+      btn.innerText="✔ Confirmado";
+      btn.className="confirmado";
+      btn.disabled=true;
+    }else{
+      btn.innerText="✅ Confirmar Pagamento";
+      btn.onclick=function(){
+        confirmados.push(nick);
+        localStorage.setItem("confirmados",JSON.stringify(confirmados));
+        btn.innerText="✔ Confirmado";
+        btn.className="confirmado";
+        btn.disabled=true;
+        alert(`Pagamento do jogador "${nick}" confirmado!`);
+        atualizarIndex();
+      };
+    }
+    
+    card.appendChild(info);
+    card.appendChild(btn);
+    listaDiv.appendChild(card);
+  });
+  
+  document.getElementById("contador").innerText = `Vagas preenchidas: ${jogadores.length} / 20`;
+}
+
+// Adicionar jogador manualmente
+function adicionarJogador(){
+  const novoNick = document.getElementById("novoNick").value.trim();
+  const novoInsta = document.getElementById("novoInsta").value.trim();
+  if(!novoNick){alert("Digite o nick do jogador"); return;}
+  jogadores.push(novoNick);
+  instas.push(novoInsta);
+  localStorage.setItem("jogadores",JSON.stringify(jogadores));
+  localStorage.setItem("instas",JSON.stringify(instas));
+  document.getElementById("novoNick").value="";
+  document.getElementById("novoInsta").value="";
+  atualizarLista();
+  atualizarIndex();
+}
+
+// Resetar campeonato
+function resetarCampeonato(){
+  if(confirm("Deseja realmente zerar todas as inscrições e vagas?")){
+    jogadores=[];
+    instas=[];
+    confirmados=[];
+    localStorage.removeItem("jogadores");
+    localStorage.removeItem("instas");
+    localStorage.removeItem("confirmados");
+    atualizarLista();
+    atualizarIndex();
+    alert("Campeonato zerado!");
+  }
+}
+
+// Atualiza Index.html (ranking/confirmados)
+function atualizarIndex(){
+  localStorage.setItem("jogadores",JSON.stringify(jogadores));
+  localStorage.setItem("campeoes",JSON.stringify(confirmados));
+}
+
+atualizarLista();
+</script>
+</body>
+</html>

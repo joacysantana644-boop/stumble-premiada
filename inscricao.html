@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Inscrição Campeonato</title>
+<style>
+body{
+font-family: Arial;
+background: linear-gradient(135deg,#0f172a,#020617);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+background:#111827;
+padding:30px;
+border-radius:12px;
+width:350px;
+box-shadow:0 0 20px rgba(0,0,0,0.7);
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:6px;
+background:#1f2937;
+color:white;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:6px;
+background:#22c55e;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#16a34a;
+}
+
+.mensagem{
+margin-top:15px;
+font-size:14px;
+color:#facc15;
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>🎮 Inscrição Campeonato</h2>
+
+<form id="form">
+<label>Nome</label>
+<input type="text" id="nome" required>
+
+<label>Nick no jogo</label>
+<input type="text" id="nick" required>
+
+<label>Instagram (opcional)</label>
+<input type="text" id="insta" placeholder="@seu_insta">
+
+<button type="submit">✅ Inscrever</button>
+</form>
+
+<div class="mensagem">
+Se você ganhar, vamos marcar você no Instagram!
+</div>
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit",function(e){
+e.preventDefault();
+
+let nome = document.getElementById("nome").value;
+let nick = document.getElementById("nick").value;
+let insta = document.getElementById("insta").value;
+
+// salva só o nick para o ranking
+let lista = JSON.parse(localStorage.getItem("jogadores")) || [];
+lista.push(nick);
+localStorage.setItem("jogadores", JSON.stringify(lista));
+
+// opcional: salvar Instagram
+let instaLista = JSON.parse(localStorage.getItem("instas")) || [];
+instaLista.push(insta);
+localStorage.setItem("instas", JSON.stringify(instaLista));
+
+// envia para o grupo WhatsApp
+window.location.href="pagamento.html";
+
+alert("Inscrição concluída!");
+});
+</script>
+</body>
+</html>
